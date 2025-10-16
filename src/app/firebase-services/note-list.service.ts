@@ -22,7 +22,6 @@ export class NoteListService {
   }
 
   getSingleDocRef(colId: string, docId: string) {
-   // return doc(this.firestore, `${colId}/${docId}`);
    return doc(collection(this.firestore, colId), docId);
   }
 
