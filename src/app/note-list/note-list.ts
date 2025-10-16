@@ -3,14 +3,14 @@ import { NoteInterface } from '../interfaces/note-interface';
 import { NoteListService } from '../firebase-services/note-list.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NoteComponent } from './note/note';
+import { Note } from './note/note';
 
 
 
 @Component({
   selector: 'app-note-list',
   standalone: true,
-  imports: [FormsModule, CommonModule, NoteComponent],
+  imports: [FormsModule, CommonModule, Note],
   templateUrl: './note-list.html',
   styleUrl: './note-list.scss'
 })

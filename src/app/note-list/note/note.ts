@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './note.html',
   styleUrl: './note.scss'
 })
-export class NoteComponent {
+export class Note {
   @Input() note!:NoteInterface;
   edit = false;
   hovered = false;
