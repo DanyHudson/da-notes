@@ -42,3 +42,8 @@ testem.log
 Thumbs.db
 src/favicon.ico
 src/favicon.png
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json

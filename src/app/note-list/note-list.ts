@@ -34,6 +34,7 @@ export class NoteList {
       this.status = "trash";
       this.favFilter = "all";
     }
+    
   }
 
 
