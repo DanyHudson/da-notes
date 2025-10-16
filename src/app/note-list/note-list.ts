@@ -3,14 +3,14 @@ import { NoteInterface } from '../interfaces/note-interface';
 import { NoteListService } from '../firebase-services/note-list.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Note } from './note/note';
+// import { Note } from './note/note';
 
 
 
 @Component({
   selector: 'app-note-list',
   standalone: true,
-  imports: [FormsModule, CommonModule, Note],
+  imports: [FormsModule, CommonModule], //Note
   templateUrl: './note-list.html',
   styleUrl: './note-list.scss'
 })
@@ -75,6 +75,7 @@ export class NoteList {
         a:active
         merkspruch: LoVe HAte`,
         marked: true,
+        
       }
     ];
   }
