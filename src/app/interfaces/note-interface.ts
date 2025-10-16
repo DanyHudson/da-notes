@@ -1,4 +1,4 @@
-export interface Note {
+export interface NoteInterface {
     id: string;
     type: "note" | "trash";
     title:string;

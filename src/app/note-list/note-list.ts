@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Note } from '../interfaces/note.interface';
+import { NoteInterface } from '../interfaces/note-interface';
 import { NoteListService } from '../firebase-services/note-list.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NoteComponent } from './note/note.component';
+import { NoteComponent } from './note/note';
 
 
 
@@ -11,11 +11,11 @@ import { NoteComponent } from './note/note.component';
   selector: 'app-note-list',
   standalone: true,
   imports: [FormsModule, CommonModule, NoteComponent],
-  templateUrl: './note-list.component.html',
-  styleUrl: './note-list.component.scss'
+  templateUrl: './note-list.html',
+  styleUrl: './note-list.scss'
 })
-export class NoteListComponent {
-  noteList: Note[] = [];
+export class NoteList {
+  noteList: NoteInterface[] = [];
   favFilter: "all" | "fav" = "all";
   status: "notes" | "trash" = "notes";
 
@@ -39,7 +39,7 @@ export class NoteListComponent {
 
 
 
-  getDummyData(): Note[] {
+  getDummyData(): NoteInterface[] {
     return [
       {
         id: "21sasd561dd4sdf",

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Note } from '../../interfaces/note.interface';
+import { NoteInterface } from '../../interfaces/note-interface';
 import { NoteListService } from '../../firebase-services/note-list.service'
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -8,11 +8,11 @@ import { CommonModule } from '@angular/common';
   selector: 'app-note',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  templateUrl: './note.component.html',
-  styleUrl: './note.component.scss'
+  templateUrl: './note.html',
+  styleUrl: './note.scss'
 })
 export class NoteComponent {
-  @Input() note!:Note;
+  @Input() note!:NoteInterface;
   edit = false;
   hovered = false;
   

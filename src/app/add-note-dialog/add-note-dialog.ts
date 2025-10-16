@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { Note } from '../interfaces/note.interface';
+import { NoteInterface } from '../interfaces/note-interface';
 import { NoteListService } from '../firebase-services/note-list.service'
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,10 +8,10 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-add-note-dialog',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './add-note-dialog.component.html',
-  styleUrl: './add-note-dialog.component.scss'
+  templateUrl: './add-note-dialog.html',
+  styleUrl: './add-note-dialog.scss'
 })
-export class AddNoteDialogComponent {
+export class AddNoteDialog {
   @Output() addDialogClosed: EventEmitter<boolean> = new EventEmitter();
   title = "";
   description = "";
