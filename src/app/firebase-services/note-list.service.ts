@@ -1,5 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { inject } from '@angular/core';
+import {NoteInterface} from '../interfaces/note-interface';
 import { Firestore, collectionData, collection, doc, onSnapshot } from '@angular/fire/firestore';
 
 @Injectable({
@@ -20,7 +21,7 @@ export class NoteListService implements OnDestroy {
   constructor() {
     this.unsubList = onSnapshot(this.getNotesRef(), (list) => {
       list.forEach(element => {
-        console.log(element);
+        console.log(element.id);
       });
 
     });
@@ -42,13 +43,23 @@ export class NoteListService implements OnDestroy {
   //   this.unsubSingle();
   // }
 
-ngOnDestroy() {
-  
+  ngOnDestroy() {
+
     if (this.unsubList) {
       this.unsubList();
     }
     if (this.unsubSingle) {
       this.unsubSingle();
+    }
+  }
+
+  setNoteObject(obj: any, id: string): NoteInterface {
+    return {
+      id: id || '',
+      title: obj.title || '',
+      content: obj.content || '',
+      marked: obj.marked || false,
+      type: obj.type || 'note'
     }
   }
 
