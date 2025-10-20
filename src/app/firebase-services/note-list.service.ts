@@ -1,19 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { inject } from '@angular/core';
 import { Firestore, collectionData, collection, doc, onSnapshot } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NoteListService {
+export class NoteListService implements OnDestroy {
   // trashNotes: Note[] = [];
   // normalNotes: Note[] = [];
 
-
+  // unsubList: () => void;
+  // unsubSingle: () => void;
   unsubList;
   unsubSingle;
   firestore = inject(Firestore);
-  // items$ = collectionData(this. getNotesRef());
+  items$ = collectionData(this.getNotesRef());
 
 
   constructor() {
@@ -25,19 +26,31 @@ export class NoteListService {
     });
 
 
-    this.unsubSingle = onSnapshot(this.getSingleDocRef('notes', 'PkflA6MAVxzCLrdpwabN'), (element) => {
+    this.unsubSingle = onSnapshot(this.getSingleDocRef('notes', 'V9rRYF7XuegxVuceghBm'), (element) => {
       console.log(element);
 
     });
 
-    this.unsubList();
-    this.unsubSingle();
 
+    this.items$.subscribe();
 
 
 
   }
+  // ngOnDestroy() {
+  //   this.unsubList();
+  //   this.unsubSingle();
+  // }
 
+ngOnDestroy() {
+  
+    if (this.unsubList) {
+      this.unsubList();
+    }
+    if (this.unsubSingle) {
+      this.unsubSingle();
+    }
+  }
 
   //  itemCollection = collection(this.firestore, 'items');
 
