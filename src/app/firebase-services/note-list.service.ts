@@ -10,15 +10,10 @@ export class NoteListService implements OnDestroy {
   trashNotes: NoteInterface[] = [];
   normalNotes: NoteInterface[] = [];
 
-
   unsubTrash: () => void;
   unsubNotes: () => void;
 
-
-
-
   firestore = inject(Firestore);
-
 
 
   constructor() {
