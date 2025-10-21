@@ -14,17 +14,27 @@ import { FormsModule } from '@angular/forms';
 export class AddNoteDialog {
   @Output() addDialogClosed: EventEmitter<boolean> = new EventEmitter();
   title = "";
-  description = "";
+  content = "";
+  // description = "";
 
-  constructor(public noteService: NoteListService){}
+  constructor(public noteService: NoteListService) { }
 
   closeDialog() {
     this.title = "";
-    this.description = "";
+    this.content = "";
     this.addDialogClosed.emit(false);
   }
 
-  addNote(){
+  addNote() {
+    let noteItem: NoteInterface = {
+      id: "",
+      type: "note",
+      title: this.title,
+      content: this.content,
+      marked: false,
+    };
+    this.noteService.addNote(noteItem);
+
     //beachte das closeDialog() zum Schluss kommt, denn es leert die Variablen
     this.closeDialog();
   }

@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { inject } from '@angular/core';
 import { NoteInterface } from '../interfaces/note-interface';
-import { Firestore, collection, doc, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, doc, onSnapshot, addDoc, updateDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,53 @@ export class NoteListService implements OnDestroy {
 
   }
 
+  async updateNote(item: NoteInterface) {
+    if (item.id) {
+      let docRef = this.getSingleDocRef(this.getColIdFromNote(item), item.id);
+      await updateDoc(docRef, this.getCleanJson(item)).catch(
+        (err) => {
+          console.error('Error updating document: ', err);
+        }
+      ).then(
+        () => {
+          console.log("Document successfully updated!"
+          )
+        }
+      );
+
+    }
+
+  }
+
+
+  getCleanJson(item: NoteInterface): {} {
+    return {
+      id: item.id,
+      type: item.type,
+      title: item.title,
+      content: item.content,
+      marked: item.marked
+    };
+  }
+
+  getColIdFromNote(item: NoteInterface): string {
+    return item.type === 'trash' ? 'trash' : 'notes';
+  }
+
+  async addNote(item: NoteInterface) {
+    await addDoc(this.getNotesRef(), item).catch(
+      (err) => {
+        console.error('Error adding document: ', err);
+      }
+    ).then(
+      (docRef) => {
+        console.log("Document written with ID: ", docRef?.id);
+      }
+    )
+
+
+  }
+
   ngOnDestroy() {
     this.unsubTrash();
     this.unsubNotes();
@@ -38,7 +85,7 @@ export class NoteListService implements OnDestroy {
   }
 
   subNotesList() {
-     return onSnapshot(this.getNotesRef(), (list) => {
+    return onSnapshot(this.getNotesRef(), (list) => {
       this.normalNotes = [];
       list.forEach((element) => {
         this.normalNotes.push(this.setNoteObject(element.data(), element.id));
