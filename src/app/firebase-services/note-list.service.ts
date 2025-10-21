@@ -1,57 +1,59 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { inject } from '@angular/core';
-import {NoteInterface} from '../interfaces/note-interface';
-import { Firestore, collectionData, collection, doc, onSnapshot } from '@angular/fire/firestore';
+import { NoteInterface } from '../interfaces/note-interface';
+import { Firestore, collection, doc, onSnapshot } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NoteListService implements OnDestroy {
-  // trashNotes: Note[] = [];
-  // normalNotes: Note[] = [];
+  trashNotes: NoteInterface[] = [];
+  normalNotes: NoteInterface[] = [];
 
-  // unsubList: () => void;
-  // unsubSingle: () => void;
-  unsubList;
-  unsubSingle;
+
+  unsubTrash: () => void;
+  unsubNotes: () => void;
+
+
+
+
   firestore = inject(Firestore);
-  items$ = collectionData(this.getNotesRef());
+
 
 
   constructor() {
-    this.unsubList = onSnapshot(this.getNotesRef(), (list) => {
-      list.forEach(element => {
-        console.log(element.id);
-      });
-
-    });
-
-
-    this.unsubSingle = onSnapshot(this.getSingleDocRef('notes', 'V9rRYF7XuegxVuceghBm'), (element) => {
-      console.log(element);
-
-    });
-
-
-    this.items$.subscribe();
-
-
+    this.unsubTrash = this.subTrashList();
+    this.unsubNotes = this.subNotesList();
 
   }
-  // ngOnDestroy() {
-  //   this.unsubList();
-  //   this.unsubSingle();
-  // }
 
   ngOnDestroy() {
+    this.unsubTrash();
+    this.unsubNotes();
 
-    if (this.unsubList) {
-      this.unsubList();
-    }
-    if (this.unsubSingle) {
-      this.unsubSingle();
-    }
   }
+
+  subTrashList() {
+    return onSnapshot(this.getTrashRef(), (list) => {
+      this.trashNotes = [];
+      list.forEach((element) => {
+        this.trashNotes.push(this.setNoteObject(element.data(), element.id));
+      });
+    });
+  }
+
+  subNotesList() {
+     return onSnapshot(this.getNotesRef(), (list) => {
+      this.normalNotes = [];
+      list.forEach((element) => {
+        this.normalNotes.push(this.setNoteObject(element.data(), element.id));
+      });
+    });
+
+
+  }
+
+
 
   setNoteObject(obj: any, id: string): NoteInterface {
     return {
