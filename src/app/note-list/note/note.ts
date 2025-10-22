@@ -40,6 +40,8 @@ export class Note {
 
   moveToTrash(){
     this.note.type = 'trash';
+    this.noteService.addNote(this.note.type);
+    this.noteService.deleteNote();
   }
 
   moveToNotes(){
@@ -47,7 +49,7 @@ export class Note {
   }
 
   deleteNote(){
-
+    
   }
 
   saveNote(){

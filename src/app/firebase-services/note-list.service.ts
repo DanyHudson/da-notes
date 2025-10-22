@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { inject } from '@angular/core';
 import { NoteInterface } from '../interfaces/note-interface';
-import { Firestore, collection, doc, onSnapshot, addDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,12 @@ export class NoteListService implements OnDestroy {
 
   }
 
+  async deleteNote(colId: "notes" | "trash", docId: string) {
+    await deleteDoc(this.getSingleDocRef(colId, docId)).catch(
+      (err) => { console.error('Error deleting document: ', err); }
+    )
+  }
+
   async updateNote(item: NoteInterface) {
     if (item.id) {
       let docRef = this.getSingleDocRef(this.getColIdFromNote(item), item.id);
@@ -39,7 +45,6 @@ export class NoteListService implements OnDestroy {
     }
 
   }
-
 
   getCleanJson(item: NoteInterface): {} {
     return {
@@ -65,14 +70,11 @@ export class NoteListService implements OnDestroy {
         console.log("Document written with ID: ", docRef?.id);
       }
     )
-
-
   }
 
   ngOnDestroy() {
     this.unsubTrash();
     this.unsubNotes();
-
   }
 
   subTrashList() {
@@ -94,8 +96,6 @@ export class NoteListService implements OnDestroy {
 
 
   }
-
-
 
   setNoteObject(obj: any, id: string): NoteInterface {
     return {
