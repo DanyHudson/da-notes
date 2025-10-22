@@ -60,16 +60,21 @@ export class NoteListService implements OnDestroy {
     return item.type === 'trash' ? 'trash' : 'notes';
   }
 
-  async addNote(item: NoteInterface) {
-    await addDoc(this.getNotesRef(), item).catch(
-      (err) => {
-        console.error('Error adding document: ', err);
-      }
-    ).then(
-      (docRef) => {
+  async addNote(item: NoteInterface, colId: "notes" | "trash" = "notes") {
+    let collectionRef;
+    if (colId === "trash") {
+      collectionRef = this.getTrashRef();
+    } else {
+      collectionRef = this.getNotesRef();
+    }
+
+    await addDoc(collectionRef, item)
+      .then(docRef => {
         console.log("Document written with ID: ", docRef?.id);
-      }
-    )
+      })
+      .catch(err => {
+        console.error('Error adding document: ', err);
+      });
   }
 
   ngOnDestroy() {
