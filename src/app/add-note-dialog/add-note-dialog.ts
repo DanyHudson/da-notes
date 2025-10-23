@@ -27,7 +27,7 @@ export class AddNoteDialog {
 
   addNote() {
     let noteItem: NoteInterface = {
-      id: "",
+      // id: "",
       type: "note",
       title: this.title,
       content: this.content,

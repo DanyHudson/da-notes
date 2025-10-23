@@ -42,7 +42,8 @@ export class Note {
     if (this.note.id) {
       this.note.type = 'trash';
       let docId = this.note.id;
-      // delete this.note.id;
+      delete this.note.id;
+      console.log(this.note);
       this.noteService.addNote(this.note, "trash");
       this.noteService.deleteNote("notes", docId);
     }

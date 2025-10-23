@@ -69,11 +69,11 @@ export class NoteListService implements OnDestroy {
     }
 
     await addDoc(collectionRef, item)
-      .then(docRef => {
-        console.log("Document written with ID: ", docRef?.id);
-      })
       .catch(err => {
         console.error('Error adding document: ', err);
+      })
+      .then(docRef => {
+        console.log("Document written with ID: ", docRef?.id);
       });
   }
 
@@ -98,7 +98,6 @@ export class NoteListService implements OnDestroy {
         this.normalNotes.push(this.setNoteObject(element.data(), element.id));
       });
     });
-
 
   }
 
