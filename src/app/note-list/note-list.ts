@@ -10,7 +10,7 @@ import { Note } from './note/note';
 @Component({
   selector: 'app-note-list',
   standalone: true,
-  imports: [FormsModule, CommonModule, Note], 
+  imports: [FormsModule, CommonModule, Note],
   templateUrl: './note-list.html',
   styleUrl: './note-list.scss'
 })
@@ -20,29 +20,34 @@ export class NoteList {
   status: "notes" | "trash" = "notes";
 
   constructor(private noteService: NoteListService) {
-    
+
   }
 
   getList(): NoteInterface[] {
     if (this.status === "notes") {
-      return this.noteService.normalNotes;
+      if (this.favFilter == "all") {
+        return this.noteService.normalNotes;
+      } else {
+        return this.noteService.normalMarkedNotes;
+      }
+
     } else {
       return this.noteService.trashNotes;
     }
   }
 
-  changeFavFilter(filter:"all" | "fav"){
+  changeFavFilter(filter: "all" | "fav") {
     this.favFilter = filter;
   }
 
-  changeTrashStatus(){
-    if(this.status == "trash"){
+  changeTrashStatus() {
+    if (this.status == "trash") {
       this.status = "notes";
     } else {
       this.status = "trash";
       this.favFilter = "all";
     }
-    
+
   }
 
 
