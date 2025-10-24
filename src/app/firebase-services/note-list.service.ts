@@ -106,30 +106,34 @@ export class NoteListService implements OnDestroy {
   }
 
   subNotesList() {
-    const q = query( this.getNotesRef(), limit(100) );
+    const q = query(this.getNotesRef(), limit(100));
     return onSnapshot(q, (list) => {
       this.normalNotes = [];
       list.forEach((element) => {
         this.normalNotes.push(this.setNoteObject(element.data(), element.id));
       });
-
-       list.docChanges().forEach((change) => {
-    if (change.type === "added") {
-        console.log("New Note: ", change.doc.data());
-    }
-    if (change.type === "modified") {
-        console.log("Modified Note: ", change.doc.data());
-    }
-    if (change.type === "removed") {
-        console.log("Removed Note: ", change.doc.data());
-    }
-  });
+      this.logDocChanges(list);
     });
 
   }
 
+
+  logDocChanges(list: any) {
+    list.docChanges().forEach((change: any) => {
+      if (change.type === "added") {
+        console.log("New Note: ", change.doc.data());
+      }
+      if (change.type === "modified") {
+        console.log("Modified Note: ", change.doc.data());
+      }
+      if (change.type === "removed") {
+        console.log("Removed Note: ", change.doc.data());
+      }
+    });
+  }
+
   subMarkedNotesList() {
-    const q = query( this.getNotesRef(), where('marked', '==', true), limit(100) );
+    const q = query(this.getNotesRef(), where('marked', '==', true), limit(100));
     return onSnapshot(q, (list) => {
       this.normalMarkedNotes = [];
       list.forEach((element) => {
